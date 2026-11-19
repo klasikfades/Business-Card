@@ -1,5 +1,9 @@
 # John King Louies R. Solis – Portfolio
 
-Personal portfolio of John King Louies R. Solis, BS Mechatronics Engineering student at Batangas State University – Alangilan.
+Static portfolio site, deployed on Vercel at https://john-solis-portfolio.vercel.app
 
-Static site: `index.html` + `photo.jpg`. No build step; deploy on Vercel or GitHub Pages.
+- `index.html`, `styles.css`, `app.js` – main page (no build step, no dependencies)
+- `404.html`, `privacy.html`, `terms.html` – extra pages (clean URLs: `/privacy`, `/terms`)
+- `vercel.json` – security headers (CSP, HSTS, frame/sniff protection), caching
+- `robots.txt`, `sitemap.xml`, `site.webmanifest`, favicons, `og.png` – SEO and sharing
+- `certs/` – MathWorks certificate PDFs
