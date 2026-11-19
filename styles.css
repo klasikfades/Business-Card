@@ -274,4 +274,4 @@ h2.reveal.in{-webkit-mask-position:0 0;mask-position:0 0;color:var(--ink)}
 /* justified text on wide blocks; narrow cards keep a balanced left edge (justifying them opens big word gaps) */
 .hero p.lead,.two > div > p,.tl ul li,.doc p{text-align:justify;text-justify:inter-word;-webkit-hyphens:auto;hyphens:auto}
 .card p,.card ul li{text-wrap:pretty}
-@media (max-width:760px){.hero p.lead{text-align:center;hyphens:manual}}
+@media (max-width:760px){.hero p.lead{text-align:justify;text-align-last:center;hyphens:auto}}
