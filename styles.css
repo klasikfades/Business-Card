@@ -270,3 +270,8 @@ h2.reveal.in{-webkit-mask-position:0 0;mask-position:0 0;color:var(--ink)}
 .nf{min-height:60dvh;display:grid;align-content:center;justify-items:start;gap:4px}
 .nf .code{font-size:clamp(72px,16vw,140px);font-weight:800;line-height:1;margin:0;background:linear-gradient(100deg in oklch,var(--primary),oklch(84% .11 70));-webkit-background-clip:text;background-clip:text;color:transparent}
 .nf .btns{margin-top:14px}
+
+/* justified text on wide blocks; narrow cards keep a balanced left edge (justifying them opens big word gaps) */
+.hero p.lead,.two > div > p,.tl ul li,.doc p{text-align:justify;text-justify:inter-word;-webkit-hyphens:auto;hyphens:auto}
+.card p,.card ul li{text-wrap:pretty}
+@media (max-width:760px){.hero p.lead{text-align:center;hyphens:manual}}
