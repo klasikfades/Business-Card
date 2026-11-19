@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="theme-color" content="#140a0c">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%236b1d2a'/%3E%3Ctext x='50%25' y='56%25' text-anchor='middle' dominant-baseline='middle' font-family='Arial' font-weight='800' font-size='28' fill='%23f3d9a4'%3EJS%3C/text%3E%3C/svg%3E">
 <title>John King Louies R. Solis – Mechatronics Engineering Portfolio</title>
 <meta name="description" content="Portfolio of John King Louies R. Solis, BS Mechatronics Engineering student at Batangas State University – Alangilan. Robotics, embedded systems, computer vision, and web systems.">
 <meta property="og:title" content="John King Louies R. Solis – Portfolio">
@@ -168,9 +169,9 @@
   .card ul{margin:0 0 14px;padding-left:18px;color:var(--ink-2);font-size:14.5px}
   .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
   .chip{background:oklch(74% .12 12 / .10);border:1px solid oklch(74% .12 12 / .24);color:oklch(90% .04 12);font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:var(--r-chip)}
-  .card .links{display:flex;gap:16px;margin-top:14px;font-size:14px;font-weight:700}
-  .card .links a{display:inline-flex;align-items:center;gap:4px}
-  .card .links svg.i{width:15px;height:15px}
+  .card .card-links{display:flex;gap:16px;margin-top:14px;font-size:14px;font-weight:700}
+  .card .card-links a{display:inline-flex;align-items:center;gap:4px}
+  .card .card-links svg.i{width:15px;height:15px}
 
   .tl{border-left:1px solid var(--border-strong);margin-left:6px;padding-left:24px}
   .tl .item{position:relative;margin-bottom:26px}
@@ -198,6 +199,32 @@
   footer .btns{justify-content:center;margin-top:18px}
   footer small{display:block;margin-top:24px;color:var(--ink-3)}
 
+
+  /* ---------- filters ---------- */
+  .filters{position:relative;display:inline-flex;gap:2px;padding:var(--pad-md);margin:0 0 22px;border-radius:var(--r-md);background:var(--l1);border:1px solid var(--border)}
+  .filters button{position:relative;z-index:1;min-height:40px;padding:0 14px;border:0;background:none;color:var(--ink-3);font:600 14px/1 inherit;font-family:inherit;border-radius:var(--r-in);cursor:pointer;transition:color var(--t-in) var(--ease-out)}
+  .filters button:hover{color:var(--ink)}
+  .filters button[aria-selected="true"]{color:var(--ink)}
+  .filters button:active{scale:.95;transition:none}
+  .fknob{position:absolute;top:var(--pad-md);left:0;height:calc(100% - 2*var(--pad-md));border-radius:var(--r-in);background:var(--l3);border:1px solid var(--border);
+    transition:translate 320ms var(--ease-in-out), width 320ms var(--ease-in-out)}
+  .fknob.moving{animation:stretch 320ms var(--ease-in-out)}
+  .card.hide{display:none}
+  .card.enter{animation:enter 260ms var(--ease-out) both;animation-delay:calc(var(--i,0) * 30ms)}
+  @keyframes enter{from{opacity:0;translate:0 10px}}
+  @media (max-width:520px){.filters{display:flex;overflow-x:auto;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent)}.filters button{white-space:nowrap}}
+
+  a.card{color:inherit;text-decoration:none}
+  a.card .view{display:inline-flex;align-items:center;gap:4px;margin-top:6px;font-size:13px;font-weight:700;color:var(--primary)}
+  a.card .view svg.i{width:14px;height:14px}
+  footer .social{margin:14px 0 0}
+  footer .social a{display:inline-flex;align-items:center;gap:6px;color:var(--ink-2);font-weight:600}
+
+  /* ---------- focus + skip link ---------- */
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
+  .skip{position:absolute;left:12px;top:-60px;z-index:50;padding:10px 14px;border-radius:12px;background:var(--l2);color:var(--ink);border:1px solid var(--border-strong);transition:top 180ms var(--ease-out)}
+  .skip:focus{top:12px}
+
   /* ---------- entrances: ease-out, masked reveal, 30ms stagger ---------- */
   .reveal{opacity:0;translate:0 14px;transition:opacity 420ms var(--ease-out), translate 420ms var(--ease-out);transition-delay:calc(var(--i,0) * 30ms)}
   .reveal.in{opacity:1;translate:0 0}
@@ -214,6 +241,7 @@
 </style>
 </head>
 <body>
+<a class="skip" href="#projects">Skip to projects</a>
 <div class="liquid" aria-hidden="true"><div class="orbit o1"><div class="blob"></div></div><div class="orbit o2"><div class="blob"></div></div><div class="orbit o3"><div class="blob"></div></div></div>
 
 <nav>
@@ -253,7 +281,7 @@
         <button class="btn ghost copy" type="button" data-email="23-02601@g.batstate-u.edu.ph"><span class="swap"><svg class="i cp" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H15"/></svg><svg class="i ok" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="label"><span class="before">Copy email</span><span class="after">Copied</span></span></button>
       </div>
       <div class="facts">
-        <div class="glass"><b>5+</b>engineering projects</div>
+        <div class="glass"><b>9</b>projects shipped</div>
         <div class="glass"><b>2</b>businesses run</div>
         <div class="glass"><b>5</b>certifications</div>
         <div class="glass"><b>2027</b>expected graduation</div>
@@ -290,9 +318,15 @@
   <div class="wrap">
     <h2>Projects</h2>
     <p class="sub">Hardware, vision, quality, and software work.</p>
-    <div class="grid">
+    <div class="filters" role="tablist" aria-label="Filter projects"><span class="fknob" aria-hidden="true"></span>
+      <button role="tab" aria-selected="true" data-f="all">All</button>
+      <button role="tab" aria-selected="false" data-f="hw">Hardware</button>
+      <button role="tab" aria-selected="false" data-f="web">Web systems</button>
+      <button role="tab" aria-selected="false" data-f="qc">Quality</button>
+    </div>
+    <div class="grid" id="project-grid">
 
-      <div class="card">
+      <div class="card" data-cat="hw">
         <div class="tag">Robotics · Computer vision · 2026</div>
         <h3>Closed-Loop Robot Hand with Camera Feedback</h3>
         <p>A robot hand that mirrors my hand in real time.</p>
@@ -304,7 +338,7 @@
         <div class="chips"><span class="chip">Python</span><span class="chip">MediaPipe</span><span class="chip">OpenCV</span><span class="chip">Arduino</span><span class="chip">MATLAB</span></div>
       </div>
 
-      <div class="card">
+      <div class="card" data-cat="hw">
         <div class="tag">Embedded · Prosthetics · 2026</div>
         <h3>Bionic Hand (Flex-Sensor Control)</h3>
         <p>A bionic hand driven by a flex-sensor glove, where each finger bend moves a servo-driven finger.</p>
@@ -315,7 +349,7 @@
         <div class="chips"><span class="chip">Arduino</span><span class="chip">ESP32</span><span class="chip">Flex sensors</span><span class="chip">Servos</span></div>
       </div>
 
-      <div class="card">
+      <div class="card" data-cat="qc">
         <div class="tag">Quality control · 2026</div>
         <h3>SQC Study of a PVC ID Card Production Line</h3>
         <p>Group case study (IE 425) on a real production line from my own printing business.</p>
@@ -326,7 +360,7 @@
         <div class="chips"><span class="chip">SQC</span><span class="chip">Control charts</span><span class="chip">Process improvement</span></div>
       </div>
 
-      <div class="card">
+      <div class="card" data-cat="web">
         <div class="tag">Web system · 2026</div>
         <h3>Klasik Fades Booking System</h3>
         <p>Online booking for my barbershop, with a Google Sheets and Apps Script backend.</p>
@@ -335,10 +369,10 @@
           <li>QR-code voucher promo with a claim page and staff redemption</li>
         </ul>
         <div class="chips"><span class="chip">JavaScript</span><span class="chip">Apps Script</span><span class="chip">Vercel</span></div>
-        <div class="links"><a href="https://kf-bookings.vercel.app" target="_blank" rel="noopener">Live site <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a></div>
+        <div class="card-links"><a href="https://kf-bookings.vercel.app" target="_blank" rel="noopener">Live site <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a></div>
       </div>
 
-      <div class="card">
+      <div class="card" data-cat="web">
         <div class="tag">Web system · 2026</div>
         <h3>LCKDIN Study Hub Management System</h3>
         <p>Booking, check-in, and billing system for a study hub.</p>
@@ -347,10 +381,10 @@
           <li>Staff PIN time clock, automated billing, admin dashboard</li>
         </ul>
         <div class="chips"><span class="chip">JavaScript</span><span class="chip">NFC</span><span class="chip">Apps Script</span><span class="chip">Google Sheets</span></div>
-        <div class="links"><a href="https://lckdin-hub.vercel.app" target="_blank" rel="noopener">Live site <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a><a href="https://github.com/klasikfades/LCKDIN-HUB" target="_blank" rel="noopener">Code <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a></div>
+        <div class="card-links"><a href="https://lckdin-hub.vercel.app" target="_blank" rel="noopener">Live site <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a><a href="https://github.com/klasikfades/LCKDIN-HUB" target="_blank" rel="noopener">Code <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a></div>
       </div>
 
-      <div class="card">
+      <div class="card" data-cat="hw">
         <div class="tag">Renewable energy · 1st year</div>
         <h3>Solar Tracker</h3>
         <p>Group project: a panel mount that follows the strongest light source.</p>
@@ -361,6 +395,32 @@
         <div class="chips"><span class="chip">Arduino</span><span class="chip">LDRs</span><span class="chip">Servo</span></div>
       </div>
 
+          <div class="card" data-cat="web">
+        <div class="tag">Full-stack web app · 2026</div>
+        <h3>Gym Attendance &amp; Membership Tracker</h3>
+        <p>QR check-in system with a staff dashboard for a gym.</p>
+        <ul><li>Members scan one door QR, search their name, and check in or out automatically</li><li>Admin pages for members, payments, attendance, and a printable QR poster</li><li>Next.js server with a Google Sheets database; tested with Vitest</li></ul>
+        <div class="chips"><span class="chip">Next.js</span><span class="chip">TypeScript</span><span class="chip">React</span><span class="chip">Vitest</span><span class="chip">Apps Script</span></div>
+        <div class="card-links"><a href="https://gym-pi-gules-32.vercel.app" target="_blank" rel="noopener">Live site <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a><a href="https://github.com/klasikfades/gym" target="_blank" rel="noopener">Code <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a></div>
+      </div>
+
+      <div class="card" data-cat="web">
+        <div class="tag">Website · 2026</div>
+        <h3>Inhinyero Tea House Website</h3>
+        <p>Editorial-style website for a tea house.</p>
+        <ul><li>Hand-written HTML, CSS, and JavaScript</li><li>Image-led layout with a magazine feel</li></ul>
+        <div class="chips"><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span></div>
+        <div class="card-links"><a href="https://github.com/klasikfades/Inhinyero-Cafe-Website" target="_blank" rel="noopener">Code <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a></div>
+      </div>
+
+      <div class="card" data-cat="web">
+        <div class="tag">Website · 2026</div>
+        <h3>Kokiri Bakery Website</h3>
+        <p>Website for a local bakery, deployed on Vercel.</p>
+        
+        <div class="chips"><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">Vercel</span></div>
+        <div class="card-links"><a href="https://kokiri-bakery.vercel.app" target="_blank" rel="noopener">Live site <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a></div>
+      </div>
     </div>
   </div>
 </section>
@@ -406,10 +466,10 @@
     <p class="sub">Safety and simulation training.</p>
     <div class="grid">
       <div class="card cert"><div class="badge">SO2</div><div><h3>Safety Officer 2</h3><p>Basic Occupational Safety and Health (BOSH) training</p></div></div>
-      <div class="card cert"><div class="badge">MW</div><div><h3>Control Design Onramp with Simulink</h3><p>MathWorks · June 2026</p></div></div>
-      <div class="card cert"><div class="badge">MW</div><div><h3>Simulink Fundamentals</h3><p>MathWorks · June 2026</p></div></div>
-      <div class="card cert"><div class="badge">MW</div><div><h3>Simulink Onramp</h3><p>MathWorks · May 2026</p></div></div>
-      <div class="card cert"><div class="badge">MW</div><div><h3>MATLAB Onramp</h3><p>MathWorks · May 2026</p></div></div>
+      <a class="card cert" href="certs/control-design-onramp.pdf" target="_blank" rel="noopener"><div class="badge">MW</div><div><h3>Control Design Onramp with Simulink</h3><p>MathWorks · June 2026</p><span class="view">View certificate <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+      <a class="card cert" href="certs/simulink-fundamentals.pdf" target="_blank" rel="noopener"><div class="badge">MW</div><div><h3>Simulink Fundamentals</h3><p>MathWorks · June 2026</p><span class="view">View certificate <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+      <a class="card cert" href="certs/simulink-onramp.pdf" target="_blank" rel="noopener"><div class="badge">MW</div><div><h3>Simulink Onramp</h3><p>MathWorks · May 2026</p><span class="view">View certificate <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
+      <a class="card cert" href="certs/matlab-onramp.pdf" target="_blank" rel="noopener"><div class="badge">MW</div><div><h3>MATLAB Onramp</h3><p>MathWorks · May 2026</p><span class="view">View certificate <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
     </div>
   </div>
 </section>
@@ -419,7 +479,7 @@
     <h2>Skills</h2>
     <p class="sub">Tools I've used on real projects.</p>
     <div class="skills">
-      <div class="card"><h3>Programming</h3><div class="chips"><span class="chip">Python</span><span class="chip">C/C++ (Arduino)</span><span class="chip">JavaScript</span><span class="chip">HTML/CSS</span><span class="chip">Apps Script</span></div></div>
+      <div class="card"><h3>Programming</h3><div class="chips"><span class="chip">Python</span><span class="chip">C/C++ (Arduino)</span><span class="chip">JavaScript</span><span class="chip">HTML/CSS</span><span class="chip">Apps Script</span><span class="chip">TypeScript</span><span class="chip">Next.js / React</span></div></div>
       <div class="card"><h3>Simulation &amp; analysis</h3><div class="chips"><span class="chip">MATLAB</span><span class="chip">Simulink</span><span class="chip">SQC / control charts</span></div></div>
       <div class="card"><h3>Embedded &amp; hardware</h3><div class="chips"><span class="chip">Arduino Uno</span><span class="chip">ESP32</span><span class="chip">Servos</span><span class="chip">Flex sensors</span><span class="chip">LDRs</span><span class="chip">NFC</span></div></div>
       <div class="card"><h3>Computer vision</h3><div class="chips"><span class="chip">OpenCV</span><span class="chip">MediaPipe</span></div></div>
@@ -434,6 +494,7 @@
     <h2>Let's talk</h2>
     <p>Open to a 320-hour OJT placement. Email me for my full resume.</p>
     <div class="btns"><a class="btn primary" href="mailto:23-02601@g.batstate-u.edu.ph"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M4 7l8 6 8-6"/></svg>Email me</a><button class="btn ghost copy" type="button" data-email="23-02601@g.batstate-u.edu.ph"><span class="swap"><svg class="i cp" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H15"/></svg><svg class="i ok" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="label"><span class="before">Copy email</span><span class="after">Copied</span></span></button></div>
+    <p class="social"><a href="https://github.com/klasikfades" target="_blank" rel="noopener">GitHub <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a></p>
     <small>© 2026 John King Louies R. Solis · Batangas City, Philippines</small>
   </div></div>
 </footer>
@@ -473,6 +534,26 @@
   pop.addEventListener('click',e=>{if(e.target.closest('a'))setOpen(false)});
   document.addEventListener('click',e=>{if(!pop.contains(e.target))setOpen(false)});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){setOpen(false);btn.focus()}});
+
+
+  /* project filters: knob slides + stretches, cards re-enter with 30ms stagger */
+  const fbar=document.querySelector('.filters');
+  if(fbar){
+    const fk=fbar.querySelector('.fknob'),fb=[...fbar.querySelectorAll('button')],cards=[...document.querySelectorAll('#project-grid .card')];
+    let fcur=null;
+    const place=(b,anim)=>{const br=fbar.getBoundingClientRect(),r=b.getBoundingClientRect();
+      if(anim&&!reduce){fk.classList.remove('moving');void fk.offsetWidth;fk.classList.add('moving')}
+      fk.style.translate=(r.left-br.left)+'px 0';fk.style.width=r.width+'px'};
+    fk.addEventListener('animationend',()=>fk.classList.remove('moving'));
+    const pick=b=>{if(b===fcur)return;place(b,!!fcur);fcur=b;
+      fb.forEach(x=>x.setAttribute('aria-selected',x===b));
+      const f=b.dataset.f;let n=0;
+      cards.forEach(c=>{const show=f==='all'||c.dataset.cat===f;c.classList.toggle('hide',!show);c.classList.remove('enter');
+        if(show){c.classList.add('in');void c.offsetWidth;c.style.setProperty('--i',n++);c.classList.add('enter')}})};
+    fb.forEach(b=>b.addEventListener('click',()=>pick(b)));
+    fk.style.transition='none';pick(fb[0]);requestAnimationFrame(()=>fk.style.transition='');
+    addEventListener('resize',()=>{fk.style.transition='none';place(fcur,false);requestAnimationFrame(()=>fk.style.transition='')});
+  }
 
   /* copy email: confirm success only after clipboard resolves */
   document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',async()=>{
