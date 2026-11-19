@@ -48,26 +48,39 @@
   .wrap{max-width:1080px;margin:0 auto;padding:0 20px;position:relative}
   svg.i{width:18px;height:18px;stroke:currentColor;stroke-width:1.75;fill:none;stroke-linecap:round;stroke-linejoin:round;flex:none}
 
-  /* ---------- liquid background (arcs, not straight lines) ---------- */
-  .liquid{position:fixed;inset:0;height:100dvh;z-index:-1;overflow:hidden;filter:blur(64px) saturate(130%);
-    -webkit-mask-image:linear-gradient(to bottom,#000 55%,transparent);mask-image:linear-gradient(to bottom,#000 55%,transparent)}
-  .orbit{position:absolute;width:0;height:0;animation:orbit 34s linear infinite}
-  .blob{position:absolute;width:44vmax;height:44vmax;translate:-50% -50%;opacity:.5;
-        border-radius:42% 58% 63% 37% / 41% 44% 56% 59%;animation:morph 20s var(--ease-in-out) infinite}
-  .o1{top:8%;left:12%}            .o1 .blob{left:9vmax;background:radial-gradient(circle in oklch,oklch(40% .16 18),transparent 66%)}
-  .o2{top:38%;right:6%;animation-duration:42s;animation-direction:reverse} .o2 .blob{left:-8vmax;background:radial-gradient(circle in oklch,oklch(38% .14 350),transparent 66%);animation-delay:-7s}
-  .o3{bottom:6%;left:48%;animation-duration:50s} .o3 .blob{left:7vmax;background:radial-gradient(circle in oklch,oklch(62% .13 55),transparent 66%);opacity:.32;animation-delay:-12s}
+  /* ---------- liquid background ----------
+     Perf: no live blur filter, no border-radius animation on big layers.
+     Blobs are soft radial gradients (already "blurred"); only transform animates,
+     so the GPU compositor handles every frame at the display's refresh rate. */
+  .liquid{position:fixed;inset:0;height:100lvh;z-index:-1;overflow:hidden;pointer-events:none;contain:strict}
+  .orbit{position:absolute;width:0;height:0;animation:orbit 34s linear infinite;will-change:transform}
+  .blob{position:absolute;width:56vmax;height:46vmax;translate:-50% -50%;opacity:.55;border-radius:50%;
+        animation:wobble 20s var(--ease-in-out) infinite;will-change:transform}
+  .o1{top:8%;left:12%}            .o1 .blob{left:9vmax;background:radial-gradient(closest-side in oklch,oklch(40% .16 18),oklch(40% .16 18 / 0))}
+  .o2{top:42%;right:6%;animation-duration:42s;animation-direction:reverse} .o2 .blob{left:-8vmax;background:radial-gradient(closest-side in oklch,oklch(38% .14 350),oklch(38% .14 350 / 0));animation-delay:-7s}
+  .o3{bottom:-4%;left:48%;animation-duration:50s} .o3 .blob{left:7vmax;background:radial-gradient(closest-side in oklch,oklch(55% .12 55),oklch(55% .12 55 / 0));opacity:.3;animation-delay:-12s}
   @keyframes orbit{to{transform:rotate(360deg)}}
+  /* liquid feel from non-uniform scale + rotation: transform-only, composited */
+  @keyframes wobble{
+    0%,100%{transform:rotate(0) scale(1,1)}
+    33%{transform:rotate(40deg) scale(1.15,.85)}
+    66%{transform:rotate(-25deg) scale(.88,1.12)}
+  }
+  /* small-area morph (avatar only) keeps the border-radius effect */
   @keyframes morph{
     0%,100%{border-radius:42% 58% 63% 37% / 41% 44% 56% 59%}
     33%{border-radius:63% 37% 38% 62% / 55% 61% 39% 45%}
     66%{border-radius:35% 65% 52% 48% / 62% 35% 65% 38%}
   }
 
-  /* ---------- glass surfaces ---------- */
+  /* ---------- glass surfaces ----------
+     Perf: backdrop blur only on the two sticky/floating layers (nav, popover).
+     Cards sit over an already-soft background, so a tinted translucent fill
+     looks the same without re-blurring every card on every scroll frame. */
   .glass,.card,nav{background:var(--l1);border:1px solid var(--border);
-    -webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%);
     box-shadow:0 1px 0 oklch(100% 0 0 / .06) inset, 0 10px 30px oklch(5% .02 var(--hue) / .45)}
+  nav{-webkit-backdrop-filter:blur(14px) saturate(150%);backdrop-filter:blur(14px) saturate(150%)}
+  section{content-visibility:auto;contain-intrinsic-size:auto 900px}
 
   /* ---------- nav + moving knob ---------- */
   nav{position:sticky;top:12px;z-index:20;margin:12px 12px 0;border-radius:var(--r-md)}
@@ -95,7 +108,7 @@
   .menu-btn[aria-expanded="true"] .ic-close{opacity:1;filter:none;scale:1}
 
   .popover{position:absolute;top:calc(100% + 8px);right:0;min-width:220px;padding:var(--pad-md);border-radius:var(--r-md);
-    background:var(--l2);border:1px solid var(--border-strong);-webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px);
+    background:var(--l2);border:1px solid var(--border-strong);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
     box-shadow:0 18px 50px oklch(5% .02 var(--hue) / .6);
     transform-origin:top right;                 /* grows out of the trigger */
     opacity:0;scale:.95;translate:0 -4px;visibility:hidden;
@@ -117,7 +130,7 @@
   .hero .role{font-size:18px;color:var(--ink-3);margin:0 0 18px}
   .hero p.lead{max-width:56ch;color:var(--ink-2);margin:0 0 28px}
 
-  .avatar{position:relative;width:240px;aspect-ratio:1}
+  .avatar{position:relative;width:240px;aspect-ratio:1;isolation:isolate}
   .avatar:before{content:"";position:absolute;inset:-10px;border-radius:inherit;
     background:conic-gradient(in oklch from 0deg,oklch(45% .16 18),var(--primary),var(--accent),oklch(45% .16 18));
     border-radius:42% 58% 63% 37% / 41% 44% 56% 59%;animation:morph 12s var(--ease-in-out) infinite;opacity:.75}
@@ -129,7 +142,7 @@
     border:1px solid var(--border);cursor:pointer;font-family:inherit;
     transition:background var(--t-in) var(--ease-out), border-color var(--t-in) var(--ease-out), scale 160ms var(--ease-out)}
   .btn.primary{background:linear-gradient(120deg in oklch,var(--primary-strong),oklch(50% .16 5));border-color:oklch(100% 0 0 / .16)}
-  .btn.ghost{background:var(--l1);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+  .btn.ghost{background:var(--l1)}
   .btn:hover{text-decoration:none;border-color:var(--border-strong)}
   .btn.ghost:hover{background:var(--l3)}
   .btn:active{scale:.95;transition:none}
@@ -449,7 +462,7 @@
     <h2>Certifications</h2>
     <p class="sub">Safety and simulation training.</p>
     <div class="grid">
-      <div class="card cert"><div class="badge">SO2</div><div><h3>Safety Officer 2</h3><p>Basic Occupational Safety and Health (BOSH) training</p></div></div>
+      <div class="card cert"><div class="badge">SO2</div><div><h3>Safety Officer 2 (BOSH SO2)</h3><p>40-hr BOSH + 2-hr Training of Trainers · Tamkene Phils., DOLE-OSHC accredited · Sept 2026</p></div></div>
       <a class="card cert" href="certs/control-design-onramp.pdf" target="_blank" rel="noopener"><div class="badge">MW</div><div><h3>Control Design Onramp with Simulink</h3><p>MathWorks · June 2026</p><span class="view">View certificate <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
       <a class="card cert" href="certs/simulink-fundamentals.pdf" target="_blank" rel="noopener"><div class="badge">MW</div><div><h3>Simulink Fundamentals</h3><p>MathWorks · June 2026</p><span class="view">View certificate <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
       <a class="card cert" href="certs/simulink-onramp.pdf" target="_blank" rel="noopener"><div class="badge">MW</div><div><h3>Simulink Onramp</h3><p>MathWorks · May 2026</p><span class="view">View certificate <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div></a>
@@ -493,8 +506,11 @@
   document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
 
   /* card spotlight follows pointer directly (no tween) */
-  document.querySelectorAll('.card').forEach(c=>c.addEventListener('pointermove',ev=>{
-    const r=c.getBoundingClientRect();c.style.setProperty('--mx',(ev.clientX-r.left)+'px');c.style.setProperty('--my',(ev.clientY-r.top)+'px')}));
+  if(matchMedia('(hover:hover)').matches)document.querySelectorAll('.card').forEach(c=>{let f=0,x=0,y=0;
+    c.addEventListener('pointermove',ev=>{x=ev.clientX;y=ev.clientY;if(f)return;f=requestAnimationFrame(()=>{f=0;
+      const r=c.getBoundingClientRect();c.style.setProperty('--mx',(x-r.left)+'px');c.style.setProperty('--my',(y-r.top)+'px')})},{passive:true})});
+  /* pause the background when the tab is hidden */
+  document.addEventListener('visibilitychange',()=>document.querySelector('.liquid').style.animationPlayState=document.hidden?'paused':'');
 
   /* nav knob: ease-in-out move, stretches 12% mid-travel */
   const list=document.querySelector('.links'),knob=list.querySelector('.knob'),links=[...list.querySelectorAll('a')];
